@@ -1,0 +1,6 @@
+.idea/
+node_modules/
+site/.cache/
+site/public/
+gatsby-theme-jurtle/.cache
+gatsby-theme-jurtle/public/

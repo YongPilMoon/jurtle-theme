@@ -1,0 +1,25 @@
+{
+  "name": "gatsby-theme-jurtle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "develop": "gatsby develop"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.15.28",
+    "react": "^16.10.0",
+    "react-dom": "^16.10.0"
+  },
+  "devDependencies": {
+    "gatsby": "^2.15.28",
+    "react": "^16.10.0",
+    "react-dom": "^16.10.0"
+  },
+  "dependencies": {
+    "gatsby-source-filesystem": "^2.1.28",
+    "gatsby-transformer-yaml": "^2.2.12"
+  }
+}
