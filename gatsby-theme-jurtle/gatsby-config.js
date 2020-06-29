@@ -1,16 +1,25 @@
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: `gatsby-plugin-typescript`,
       options: {
-        path: 'data',
-      }
+        isTSX: true,
+        allExtensions: true,
+      },
     },
     {
-      resolve: 'gatsby-transformer-yaml',
+      resolve: `gatsby-source-filesystem`,
       options: {
-        typeName: 'Event'
-      }
-    }
+        name: `posts`,
+        path: `${__dirname}/src/posts`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-page-creator",
+      options: {
+        path: `${__dirname}/src/posts`,
+      },
+    },
+    `gatsby-plugin-mdx`,
   ]
 }

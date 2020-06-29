@@ -1,74 +1,57 @@
-const fs = require('fs');
+const path = require('path');
+const fs = require("fs")
+const { createFilePath } = require("gatsby-source-filesystem");
+// Make sure the data directory exists
 exports.onPreBootstrap = ({ reporter }) => {
-  const contentPath = 'data'
-  if(!fs.existsSync(contentPath)) {
+  const contentPath = "src/posts"
+  if (!fs.existsSync(contentPath)) {
     reporter.info(`creating the ${contentPath} directory`)
     fs.mkdirSync(contentPath)
   }
-};
-
-exports.sourceNodes = ({ actions }) => {
-  actions.createTypes(`
-    type Event implements Node @donInfer {
-      id: ID!
-      name: String!
-      location: String!
-      startDate: Date! @dateformat @proxy(from: "start_date")
-      endDate: Date! @dateformat @proxy(from: "end_date")
-      url: String!
-      slug: String!
-    }
-  `)
 }
 
-exports.createResolvers = ({ createResolvers }) => {
-  const basePath = '/'
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions;
 
-  const slugify = str => {
-    const slug = str.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)+/g, "")
-    return `/${basePath}/${slug}`.replace(/\/\/+/g, "/")
+  if(node.internal.type === 'Mdx' ) {
+    const value = createFilePath({ node, getNode })
+    createNodeField({
+      name: "slug",
+      node,
+      value: `/blog${value}`,
+    })
   }
+}
 
-  createResolvers({
-    Event: {
-      slug: {
-        resolve: source => slugify(source.name)
-      }
-    }
-  })
-};
+exports.createPages =  async({ graphql, actions, reporter }) => {
+  const { createPage  } = actions;
 
-exports.createPages = async ({ actions, graphql, reporter }) => {
-  const basePath = '/';
-  actions.createPage({
-    path: basePath,
-    component: require.resolve('./src/templates/events.jsx')
-  })
   const result = await graphql(`
     query {
-      allEvent(sort: { fields: startDate, order: ASC }) {
-        nodes {
-          id
-          slug
+      allMdx {
+        edges {
+          node {
+            id
+            fields {
+              slug
+            }
+          }
         }
       }
     }
   `)
-  if(result.errors) {
-    reporter.panic('error loading events', result.errors)
-    return
+
+  if (result.errors) {
+    reporter.panicOnBuild('🚨  ERROR: Loading "createPages" query')
   }
-  const events = result.data.allEvent.nodes
-  events.forEach(event => {
-    const slug = event.slug
-    actions.createPage({
-      path: slug,
-      component: require.resolve('./src/templates/event.js'),
-      context: {
-        eventId: event.id
-      }
+
+  const posts = result.data.allMdx.edges
+
+  posts.forEach(({ node }, index) => {
+    createPage({
+      path: node.fields.slug,
+      component: path.resolve(`./src/components/posts-page-layout.tsx`),
+      context: { id: node.id }
     })
   })
-};
+}
