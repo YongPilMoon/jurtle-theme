@@ -23,7 +23,9 @@
     "react-dom": "^16.10.0"
   },
   "dependencies": {
+    "gatsby-plugin-sharp": "^2.6.14",
     "gatsby-plugin-typescript": "^2.4.8",
+    "gatsby-remark-images": "^3.3.13",
     "gatsby-source-filesystem": "^2.1.28"
   }
 }
