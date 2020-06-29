@@ -6,7 +6,7 @@ exports.onPreBootstrap = ({ reporter }) => {
   const contentPath = "src/posts"
   if (!fs.existsSync(contentPath)) {
     reporter.info(`creating the ${contentPath} directory`)
-    fs.mkdirSync(contentPath)
+    fs.mkdirSync(contentPath, { recursive: true })
   }
 }
 
@@ -45,12 +45,16 @@ exports.createPages =  async({ graphql, actions, reporter }) => {
     reporter.panicOnBuild('🚨  ERROR: Loading "createPages" query')
   }
 
+  if(!result.data) {
+    console.error("Make sure you have posts in 'src/posts/' directory!")
+  }
+
   const posts = result.data.allMdx.edges
 
   posts.forEach(({ node }, index) => {
     createPage({
       path: node.fields.slug,
-      component: path.resolve(`./src/components/posts-page-layout.tsx`),
+      component: require.resolve(`./src/components/posts-page-layout.tsx`),
       context: { id: node.id }
     })
   })
