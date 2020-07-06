@@ -35,6 +35,7 @@ module.exports = {
       options: {
         path: `src/posts/`,
       },
-    }
+    },
+    `gatsby-plugin-styled-components`
   ]
 }

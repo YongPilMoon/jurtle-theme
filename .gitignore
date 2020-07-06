@@ -4,3 +4,4 @@ site/.cache/
 site/public/
 gatsby-theme-jurtle/.cache
 gatsby-theme-jurtle/public/
+gatsby-theme-jurtle/yarn-error.log
