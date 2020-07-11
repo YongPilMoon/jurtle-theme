@@ -1,12 +1,7 @@
 import * as React from "react";
 import { Link, graphql } from "gatsby";
 import Header from "../components/Header";
-import { createGlobalStyle } from 'styled-components';
-import NormalizeCss from '../styles/NormalizeCSS';
 
-const GlobalStyle = createGlobalStyle` 
-
-`
 export const pageQuery = graphql`
     query blogIndex {
         allMdx {
@@ -41,8 +36,6 @@ const BlogIndex = ({ data }) => {
           </li>
         ))}
       </ul>
-      <GlobalStyle />
-      <NormalizeCss/>
     </div>
   )
 }
