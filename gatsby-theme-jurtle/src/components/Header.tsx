@@ -15,16 +15,10 @@ const Container = styled.header`
   align-items: center;
 `;
 
-const Logo = styled.span`
-  font-weight: bold;
-  font-size: 20px;
-  color: rgb(0, 70, 20)
-`
-
 const Header: React.FC<Props> = ({ logo = 'Jurtle'}) => {
   return (
     <Container>
-      <Typography>
+      <Typography variant="h6">
       {logo}
       </Typography>
     </Container>
