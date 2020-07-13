@@ -13,14 +13,19 @@ const Container = styled.header`
   padding: 0 24px;
   display: flex;
   align-items: center;
+  background-color: #004680;
+`;
+
+const Logo = styled(Typography)`
+  color: white;
 `;
 
 const Header: React.FC<Props> = ({ logo = 'Jurtle'}) => {
   return (
     <Container>
-      <Typography variant="h6">
+      <Logo variant="h6">
       {logo}
-      </Typography>
+      </Logo>
     </Container>
   );
 }

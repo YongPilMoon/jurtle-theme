@@ -1,6 +1,8 @@
 import * as React from "react";
+import styled from 'styled-components';
 import { Link, graphql } from "gatsby";
 import Header from "../components/Header";
+import PostCard from "../components/PostCard";
 
 export const pageQuery = graphql`
     query blogIndex {
@@ -20,23 +22,28 @@ export const pageQuery = graphql`
         }
     }
 `
+const Content = styled.div`
+  padding-top: 80px;
+  min-height: calc(100vh - 60px);
+  background-color: #f5f5f5;
+`
+
+const PostList = styled.div`
+  max-width: 1440px;
+  margin: 0 auto;
+`;
 
 const BlogIndex = ({ data }) => {
   const { edges: posts } = data.allMdx
   return (
-    <div>
+    <>
       <Header>Awesome MDX Blog</Header>
-      <ul>
-        {posts.map(({ node: post }) => (
-          <li key={post.id}>
-            <Link to={post.fields.slug}>
-              <h2>{post.frontmatter.title}</h2>
-            </Link>
-              <p>{post.excerpt}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <Content>
+      <PostList>
+        {posts.map(({ node: post }) => <PostCard />)}
+      </PostList>
+      </Content>
+    </>
   )
 }
 
